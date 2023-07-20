@@ -1,0 +1,35 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        sc.close();
+
+        if(n <= 9) {
+            System.out.print(n);
+        }
+        else if(10 <= n && n <= 99) {
+            System.out.print(n);
+        }
+        else if(100 <= n && n <=999) {
+
+            int cnt = 99;
+
+            for(int i = 100; i <= n; i++) {
+                int hund = i / 100;
+                int ten = (i % 100) / 10;
+                int one = (i % 100) % 10;
+
+                if((hund - ten) == (ten - one)) {
+                    cnt++;
+                }
+            }
+            System.out.print(cnt);
+        }
+        else if(n == 1000) {
+            System.out.print(144);
+        }
+    }
+}
