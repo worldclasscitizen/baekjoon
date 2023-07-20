@@ -20,7 +20,7 @@ public class Main {
             }
             
             // subGrade 에 따라 과목평점 * 학점 을 gradeSum 에 넣는다.
-            // F 는 gradeSum 에 어차피 0 만 들어가니까 패스하고, scoreSum 에만 추가한다.
+            // F는 gradeSum 에 어차피 0 만 들어가니까 패스하고, scoreSum 에만 추가한다.
 
             if(subGrade.equals("A+")) {
                 gradeSum += 4.5d * subScore;
