@@ -1,0 +1,33 @@
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<Integer> temp = new ArrayList<>();
+
+        for(int j = 1; j < 9999; j++) {
+            if(1 <= j && j <= 9) {
+                temp.add(j * 2);
+            }
+            if(10 <= j && j <= 99) {    
+                temp.add(j + j/10 + j%10);
+            }
+
+            if(100 <= j && j <= 999) {
+                temp.add(j + j/100 + (j/10)%10 + (j%100)%10);
+            }
+
+            if(1000 <= j && j <= 9990) {
+                temp.add(j + j/1000 + (j/100)%10 + (j%100)/10 + (j%100)%10);
+            }
+        }
+
+        for(int i = 1; i < 10001; i++) {
+            if(temp.contains(i)) {
+                continue;
+            }
+            else {
+                System.out.println(i);
+            }
+        }
+    }
+}
