@@ -1,0 +1,58 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+
+        double scoreSum = 0.0d;
+        double gradeSum = 0.0d;
+        
+        for(int i = 0; i < 20; i++) {
+            sc.next();                          // 과목 이름은 패스
+            double subScore = sc.nextDouble();  // 학점
+            String subGrade = sc.next();        // 과목평점
+
+            if(subGrade.equals("P")) {
+                continue;
+            }
+            else {
+                scoreSum += subScore;
+            }
+            
+            // subGrade 에 따라 과목평점 * 학점 을 gradeSum 에 넣는다.
+            // F 는 gradeSum 에 어차피 0 만 들어가니까 패스하고, scoreSum 에만 추가한다.
+
+            if(subGrade.equals("A+")) {
+                gradeSum += 4.5d * subScore;
+            }
+            else if(subGrade.equals("A0")) {
+                gradeSum += 4.0d * subScore;
+            }
+            else if(subGrade.equals("A0")) {
+                gradeSum += 4.0d * subScore;
+            }
+            else if(subGrade.equals("B+")) {
+                gradeSum += 3.5d * subScore;
+            }
+            else if(subGrade.equals("B0")) {
+                gradeSum += 3.0d * subScore;
+            }
+            else if(subGrade.equals("C+")) {
+                gradeSum += 2.5d * subScore;
+            }
+            else if(subGrade.equals("C0")) {
+                gradeSum += 2.0d * subScore;
+            }
+            else if(subGrade.equals("D+")) {
+                gradeSum += 1.5d * subScore;
+            }
+            else if(subGrade.equals("D0")) {
+                gradeSum += 1.0d * subScore;
+            }
+        }
+
+        double ans = gradeSum / scoreSum;
+
+        System.out.println(ans);
+    }
+}
