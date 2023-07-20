@@ -1,0 +1,41 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int cnt = 0;
+
+        for(int i = 0; i <=n; i++) {
+            String str = sc.nextLine();
+            int index = 0;
+            int[] alphabet = new int[26];
+
+            for(int j = 0; j < str.length(); j++) {
+                int seq = (int)str.charAt(index) - 97;
+                // 현재 알파벳이 이전에 존재하지 않았을 때
+                if(alphabet[seq] == 0) {
+                    if(index == str.length() - 1){
+                        cnt++;
+                        break;
+                    }
+                    alphabet[seq] += 1;
+                    index++;
+                }
+                // index가 0이 아니고, 현재 알파벳이 과거에 존재했었고, 이전 알파벳이 현재와 동일할 때 
+                else if(index != 0 && alphabet[seq] == 1 && ((int)str.charAt(index-1) - 97) == seq) {
+                    if(index == str.length() - 1){
+                        cnt++;
+                        break;
+                    }
+                    index++;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        sc.close();
+        System.out.print(cnt);
+    }
+}
