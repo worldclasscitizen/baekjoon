@@ -1,0 +1,55 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
+
+        int fiveCount = 0;
+        int threeCount = 0;
+
+        if(n >= 5) {
+            while(n / 5 >= 1) {
+                n -= 5;
+                fiveCount++;
+            }
+
+            if(n % 5 == 4) {
+                fiveCount--;
+                threeCount = 3;
+                System.out.print(fiveCount + threeCount);
+            }
+            else if(n % 5 == 3) {
+                threeCount = 1;
+                System.out.print(fiveCount + threeCount);
+            }
+            else if(n % 5 == 2) {
+                if(fiveCount >= 2) {
+                    fiveCount -= 2;
+                    threeCount = 4;
+                    System.out.print(fiveCount + threeCount);
+                }
+                else {
+                    System.out.print(-1);
+                }
+            }
+            else if(n % 5 == 1) {
+                fiveCount--;
+                threeCount = 2;
+                System.out.print(fiveCount + threeCount);
+            }
+            else if(n % 5 == 0) {
+                System.out.print(fiveCount);
+            }
+        }
+        else {
+            if(n == 3) {
+                System.out.print(1);
+            }
+            else {
+                System.out.print(-1);
+            }
+        }
+    }
+}
