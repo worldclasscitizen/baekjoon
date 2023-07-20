@@ -1,0 +1,61 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
+
+        int s = 1;
+        int m = 1;
+        boolean momSide = false; // 분모의 크기가 점점 커지는 boolean
+        boolean sonSide = false; // 분자 "
+
+        for(int i = 1; i < n; i++) {
+            if(n == 1) {
+                break;
+            }
+            if(s == 1 && m == 1) {
+                m ++;
+                sonSide = true;
+            }
+            else if(s == 1 && m == 2) {
+                m -= 1;
+                s += 1;
+            }
+            else if(s == 1 && m != 1) {
+                if(momSide == true) {
+                    m++;
+                    momSide = false;
+                    sonSide = true;
+                }
+                else if(sonSide == true) {
+                    m -= 1;
+                    s += 1;
+                }
+            }
+            else if(m == 1 && s != 1) {
+                if (momSide == true) {
+                    m += 1;
+                    s -= 1;
+                }
+                else if(sonSide == true) {
+                    s++;
+                    sonSide = false;
+                    momSide = true;
+                }
+            }
+            else if (momSide == true) {
+                m += 1;
+                s -= 1;
+            }
+            else if (sonSide == true) {
+                s += 1;
+                m -= 1;
+            }
+        }
+
+        System.out.printf("%d/%d", s, m);
+        
+    }    
+}
