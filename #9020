@@ -1,0 +1,58 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String args[]) throws IOException {
+
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        for(int i = 0; i < t; i++) {
+            int n = sc.nextInt();
+            
+            boolean[] primes = new boolean[n+1];
+            Arrays.fill(primes, true);
+            primes[0] = primes[1] = false; // 0과 1은 사전에 제외한다.
+
+            // n 이하의 소수 구하기
+            for(int j = 2; j * j <= n; j++) {
+                if(primes[j]) {
+                    for(int k = j * j; k <= n; k += j) {
+                        primes[k] = false;
+                    }
+                }
+            }
+
+            int xPos = 0;
+            int zPos = 0;
+            int temp = 10000;
+            int zSave = 0;
+            boolean check = false;
+
+            for(int z = 1; z <= n / 2; z++) {
+                if(n / 2 == z && primes[z] == true) {
+                    check = true;
+                    zSave = z;
+                    break;
+                }
+                else if(primes[n/2-z] == true && primes[n/2+z] == true) {
+                    if((n/2-z) <= (n/2+z) && (n/2-z) + (n/2+z) == n) {
+                        if((n/2+z) - (n/2-z) < temp) {
+                            temp = (n/2+z) - (n/2-z);
+                            xPos = (n/2+z);
+                            zPos = (n/2-z);
+                        }
+                    }
+                }
+            }
+
+            if(check) System.out.printf("%d %d\n", zSave, zSave);
+            else {System.out.printf("%d %d\n", zPos, xPos);}
+            
+            
+        }
+
+        sc.close();
+
+    }   
+}
