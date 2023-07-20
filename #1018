@@ -1,0 +1,49 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String args[]) {
+		Scanner sc = new Scanner(System.in);
+		int x = sc.nextInt();
+		int y = sc.nextInt();
+		String str;
+		char[][] box = new char[x][y];
+		int min = 64;
+		int cnt = 0;
+
+		sc.nextLine();
+
+		for(int i = 0; i < x; i++) {
+			str = sc.nextLine();
+			for(int j = 0; j < y; j++) {
+				box[i][j] = str.charAt(j);
+			}
+		}
+
+		for(int i = 0; i <= x-8; i++) {
+			for(int j = 0; j <= y-8; j++) {
+				cnt = 0;
+				for(int m = i; m <= i+7; m++) {
+					for(int n = j; n <= j+7; n++) {
+						if(m % 2 == 0 && n % 2 == 0) {
+							if(box[m][n] == 'B') { cnt++; }
+						}
+						else if(m % 2 == 0 && n % 2 != 0) {
+							if(box[m][n] == 'W') { cnt++; }
+						}
+						else if(m % 2 != 0 && n % 2 == 0) {
+							if(box[m][n] == 'W') { cnt++; }
+						}
+						else {
+							if(box[m][n] == 'B') { cnt++; }
+						}
+					}
+				}
+				if(cnt > 32) { cnt = 64 - cnt; }
+				if(cnt < min) { min = cnt; }
+			}
+		}
+
+		System.out.println(min);
+	}
+}
