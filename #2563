@@ -1,0 +1,40 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt(); // 색종이의 개수
+        int l, d; // 왼쪽에서 얼마나 떨어졌는가와 아래에서 얼마나 떨어졌는가
+        int cnt = 0; // 색종이로 가린 면을 카운트.
+
+        boolean[][] dohwa = new boolean[100][100]; // 100 x 100 의 도화지
+
+        // 일단 도화지를 전부 true로 초기화
+        for(int i = 0; i < 100; i++) {
+            for(int j = 0; j < 100; j++) {
+                dohwa[i][j] = true;
+            }
+        }
+
+        // 일단 좌표 입력받고
+        for(int i = 0; i < n; i++) {
+            l = sc.nextInt();
+            d = sc.nextInt();
+
+            // 입력받은 값을 토대로 dohwa 에 false 처리.
+            for(int j = l; j < l + 10; j++) {
+                for(int k = d; k < d + 10; k++) {
+                    if(dohwa[j][k] == true) {
+                        dohwa[j][k] = false;
+                        cnt++;
+                    }
+                }
+            }
+            // 반복
+        }
+
+        System.out.print(cnt);
+
+    }
+}
