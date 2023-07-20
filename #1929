@@ -1,0 +1,35 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s = br.readLine();
+        StringTokenizer st = new StringTokenizer(s);
+        int m = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
+        br.close();
+
+        boolean[] mprime = new boolean[m+1];
+        boolean[] nprime = new boolean[n+1];
+        Arrays.fill(mprime, true);
+        Arrays.fill(nprime, true);
+
+        nprime[0] = nprime[1] = false;
+       
+        for(int i = 2; i * i <= n; i++) {
+            if(nprime[i]) {
+                for(int j = i*i; j <= n; j += i) {
+                    nprime[j] = false;
+                }
+            }
+        }
+
+        for(int j = m; j <= n; j++) {
+            if(nprime[j]) {
+                System.out.println(j);
+            }
+        }
+            
+    }   
+}
