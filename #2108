@@ -1,0 +1,64 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+public class Main {
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(br.readLine());
+        int arr[] = new int[8001];
+        boolean tf = false;
+
+        // 합계를 구함과 동시에 arr[]에 counting sort로 할당
+        double sum = 0.0d;
+        for (int i = 0; i < n; i++) {
+            int temp = Integer.parseInt(br.readLine());
+            sum += temp;
+            arr[temp + 4000]++;
+        }
+
+        // newArr[]에 존재하는 값들만 인덱스 0번부터 차례대로 입력
+        // 최솟값, 최댓값 구하기 용이
+        int newArr[] = new int[n];
+        int temp = 0;
+        int cnt = 0;
+        int cntMax = 0;
+        int[] mins = new int[n];
+
+        for (int i = 0; i < 8001; i++) {
+            if (arr[i] != 0) {
+                if (arr[i] > cnt) {
+                    cnt = arr[i];
+                    cntMax = i - 4000;
+                } else if (arr[i] == cnt) {
+                    tf = true;
+                }
+
+                for (int j = 1; j <= arr[i]; j++) {
+                    newArr[temp++] = i - 4000;
+                }
+            }
+        }
+
+        mins[0] = cntMax;
+        if(n > 1) { mins[1] = cntMax; }
+
+        int tempCnt = 0;
+        if(tf) {
+            for(int i = 0; i < 8001; i++) {
+                if(arr[i] == cnt) {
+                    mins[tempCnt++] = i - 4000;
+                }
+                if(tempCnt == 2) { break; }
+            }
+        }
+
+        System.out.println(Math.round(sum / n));
+        System.out.println(newArr[n / 2]);
+        if (n == 1) { System.out.println(newArr[0]); }
+        else if (tf) { System.out.println(mins[1]); }
+        else { System.out.println(cntMax); }
+        System.out.println(newArr[n - 1] - newArr[0]);
+    }
+}
