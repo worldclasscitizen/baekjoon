@@ -1,0 +1,25 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String args[]) {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int cnt = 0;
+
+		String six = "666";
+
+		int go = 665;
+		while(true) {
+			go++;
+			String goes = Integer.toString(go);
+			if(goes.contains(six)) {
+				cnt++;
+			}
+			if(cnt == n) {
+				System.out.println(goes);
+				break;
+			}			
+		}
+	}
+}
