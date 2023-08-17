@@ -1,0 +1,30 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String args[]) throws IOException {	
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+
+		String[] subjects = new String[3];
+		subjects[0] = "swimming";
+		subjects[1] = "bowling";
+		subjects[2] = "soccer";
+
+		for(int i = 0; i < n-1; i++) {
+			System.out.print(subjects[0] + " ");
+		}
+		System.out.print(subjects[0]);
+		System.out.flush();
+
+		System.out.println();
+
+		String[] fails = new String[n];
+		for(int j = 0; j < n; j++) {
+			fails[j] = sc.next();
+
+			if(fails[j].equals(subjects[1])) { System.out.print(subjects[2] + " "); }
+			else if(fails[j].equals(subjects[2])) { System.out.print(subjects[1] + " "); }
+		}
+    }
+}
