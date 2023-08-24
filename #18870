@@ -1,0 +1,60 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static Integer[] arrSorted;
+    public static void main(String args[]) throws IOException {	
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      StringBuilder sb = new StringBuilder();
+
+      // INPUT n
+      int n = Integer.parseInt(br.readLine());
+
+      // INPUT nums into array
+      Integer[] arr = new Integer[n];
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      for (int i=0; i<n; i++) {
+        arr[i] = Integer.parseInt(st.nextToken());
+      }
+
+      // HashSet to sort without duplication
+      HashSet<Integer> hset = new HashSet<Integer>();
+      for(int i = 0; i < n; i++) {
+        hset.add(arr[i]);
+      }
+      // ASCENDING SORT
+      List<Integer> list = new ArrayList<Integer>(hset);
+      Collections.sort(list);
+      
+      // Array for 'Binary Search'
+      arrSorted = new Integer[list.size()];
+      for(int j = 0; j < list.size(); j++) {
+        arrSorted[j] = list.get(j);
+      }
+
+      // PRINT INDEX of 'arrSorted' while 'Binary Search' the origin array
+      for(int j : arr) {
+        sb.append(binarySearch(j, 0, list.size()-1) + " ");
+      }
+      System.out.println(sb);
+    }	
+
+    static int binarySearch(int key, int low, int high) {
+      int mid;
+        
+      if(low <= high) {
+        mid = (low + high) / 2;
+          
+        if(key == arrSorted[mid]) { 
+          return mid;                             // if successed
+        }
+        else if(key < arrSorted[mid]) {
+          return binarySearch(key, low, mid - 1);  
+        }
+        else {
+          return binarySearch(key, mid + 1, high); 
+        }
+      }
+      return -1;                                   // if failed 
+    }
+}
