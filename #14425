@@ -1,0 +1,37 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static Integer[] cardSorted;
+    public static void main(String args[]) throws IOException {	
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      StringBuilder sb = new StringBuilder();
+      StringTokenizer st = new StringTokenizer(br.readLine());
+
+      int cnt = 0;
+
+      // INPUT n, m
+      int n = Integer.parseInt(st.nextToken());
+      int m = Integer.parseInt(st.nextToken());
+
+      // INPUT S
+      String[] S = new String[n];
+      for(int i = 0; i < n; i++) {
+        S[i] = br.readLine();
+      }
+
+      // INPUT compareS
+      String[] compareS = new String[m];
+      for(int i = 0; i < m; i++) {
+        compareS[i] = br.readLine();
+      }
+
+      for(String str : compareS) {
+        for(int j = 0; j < n; j++) {
+          if(S[j].equals(str)) { cnt++; }
+        }
+      }
+
+      System.out.println(cnt);
+    }
+}
