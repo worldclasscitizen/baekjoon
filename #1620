@@ -1,0 +1,46 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String args[]) throws IOException {	
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      StringBuilder sb = new StringBuilder();
+      StringTokenizer st = new StringTokenizer(br.readLine());
+
+      // INPUT n, m
+      int n = Integer.parseInt(st.nextToken());
+      int m = Integer.parseInt(st.nextToken());
+
+      // INPUT Pokedex, Treedex
+      // Pokedex : for searching Pokemon by Int
+      // Treedex : for searching Pokemon by name. TreeMap has automatic sort & save function with Binary Search.
+      String[] pokedex = new String[n];
+      TreeMap<String, Integer> treedex = new TreeMap<>();
+      for(int i = 0; i < n; i++) {
+        pokedex[i] = br.readLine();
+        treedex.put(pokedex[i], i + 1);
+      }
+
+      // Check Pokemon (string or int)
+      for(int j = 0; j < m; j++) {
+        String pokemon = br.readLine();
+        if (isInt(pokemon)) {
+          int number = Integer.parseInt(pokemon);
+          sb.append(pokedex[number - 1] + "\n");
+        }
+        else {
+          sb.append(treedex.get(pokemon) + "\n");
+        }
+      }
+      System.out.print(sb);
+    }
+
+    public static boolean isInt(String str) {
+      try {
+        Integer.parseInt(str);
+        return true;
+      } catch (NumberFormatException ex) {
+        return false;
+      }
+    }
+}
