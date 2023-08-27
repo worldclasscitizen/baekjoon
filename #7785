@@ -1,0 +1,54 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static Integer[] cardSorted;
+    public static void main(String args[]) throws IOException {	
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      StringBuilder sb = new StringBuilder();
+      StringTokenizer st = new StringTokenizer(br.readLine());
+
+      // INPUT n
+      int n = Integer.parseInt(st.nextToken());
+
+      // INPUT lists
+      HashMap<String, String> lists = new HashMap<>();
+      
+      for(int i = 0; i < n; i++) {
+        StringTokenizer st2 = new StringTokenizer(br.readLine());
+        String name = st2.nextToken();
+        String move = st2.nextToken();
+
+        lists.put(name, move);
+      }
+
+      // INPUT sortedList
+      String[] arr = new String[lists.size()];
+      int q = 0;
+
+      for(Map.Entry<String, String> entry : lists.entrySet()) {
+        if(entry.getValue().equals("leave")) {
+          continue; 
+        }
+        else { arr[q++] = entry.getKey(); 
+        }
+      }
+
+      String[] sortedList = new String[q];
+      for(int j = 0; j < q; j++) {
+        sortedList[j] = arr[j];
+      }
+
+      // Ascending Sort
+      Arrays.sort(sortedList, new Comparator<String>() {
+        public int compare(String s1, String s2) {
+          return s1.compareTo(s2);
+        }
+      });
+
+      for(int i = sortedList.length - 1; i >= 0; i--) {
+        sb.append(sortedList[i] + "\n");
+      }
+      System.out.print(sb);  
+    }
+}
