@@ -1,0 +1,63 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static List<String> list = new ArrayList<String>();
+    public static void main(String args[]) throws IOException {	
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      StringBuilder sb = new StringBuilder();
+
+      // INPUT n, m
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      int n = Integer.parseInt(st.nextToken());
+      int m = Integer.parseInt(st.nextToken());
+
+      // INPUT noHear, noLook
+      String[] noHear = new String[n];
+      String[] noLook = new String[m];
+
+      for(int i = 0; i < n; i++) {
+        noHear[i] = br.readLine();
+      }
+
+      for(int j = 0; j < m; j++) {
+        noLook[j] = br.readLine();
+      }
+
+      // Ascending Sort
+      Arrays.sort(noHear);
+      Arrays.sort(noLook);
+      
+      // COUNT
+      int cnt = 0;
+      for(String name : noHear) {
+        cnt += binarySearch(name, 0, m-1, noLook);
+      }
+      System.out.println(cnt);
+      for(String str : list) {
+        System.out.println(str);
+      }
+
+    }
+
+    static int binarySearch(String key, int start, int end, String[] noLook) {
+      int mid;
+
+      if(start <= end) {
+        mid = (start + end) / 2;
+
+        if(key.compareTo(noLook[mid]) == 0) {
+          list.add(noLook[mid]);
+          return 1;
+        }
+        else if(key.compareTo(noLook[mid]) < 0) {
+          return binarySearch(key, start, mid - 1, noLook);
+        }
+        else {
+          return binarySearch(key, mid + 1, end, noLook);
+        }
+      }
+
+      return 0;
+    }
+}
