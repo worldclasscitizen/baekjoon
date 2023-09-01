@@ -1,0 +1,80 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String args[]) throws IOException {	
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      StringBuilder sb = new StringBuilder();
+
+      // INPUT n, m
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      int a = Integer.parseInt(st.nextToken());
+      int b = Integer.parseInt(st.nextToken());
+
+      // DECLARE HashSet (for non-duplicate)
+      HashSet<Integer> hSet = new HashSet<Integer>();
+
+      // INPUT aSet
+      st = new StringTokenizer(br.readLine());
+      HashSet<Integer> aSet = new HashSet<Integer>();
+      for(int i = 0; i < a; i++) {
+        aSet.add(Integer.parseInt(st.nextToken()));
+      }
+
+      // INPUT & SORT aArr
+      int[] aArr = new int[aSet.size()];
+      int u = 0;
+      for(int i : aSet) {
+        aArr[u++] = i;
+      }
+      Arrays.sort(aArr);
+
+      // INPUT bSet
+      st = new StringTokenizer(br.readLine());
+      HashSet<Integer> bSet = new HashSet<Integer>();
+      for(int j = 0; j < b; j++) {
+        bSet.add(Integer.parseInt(st.nextToken()));
+      }
+
+      // INPUT & SORT bArr
+      int[] bArr = new int[bSet.size()];
+      int q = 0;
+      for(int w : bSet) {
+        bArr[q++] = w;
+      }
+      Arrays.sort(bArr);
+      
+
+      // INPUT hSet
+      for(int A : aArr) {
+        hSet.add(A);
+      }
+      for(int B : bArr) {
+        hSet.add(B);
+      }
+
+      // COUNT
+      int cnt = 0;
+      for(int key : aArr) {
+        cnt += binarySearch(key, 0, bArr.length - 1, bArr);
+      }
+
+      System.out.println(hSet.size() - cnt);
+    }
+
+    static int binarySearch(int find, int start, int end, int[] arr) {
+        int mid;
+
+        if(start <= end) {
+            mid = (start + end) / 2;
+
+            if(find == arr[mid]) {
+              return 1;
+            }
+            else if(find < arr[mid]) { return binarySearch(find, start, mid - 1, arr); }
+            else { return binarySearch(find, mid + 1, end, arr); }
+        }
+        
+        return 0;
+    }
+}
