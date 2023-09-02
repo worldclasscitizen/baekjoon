@@ -1,0 +1,23 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String args[]) throws IOException {	
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      StringBuilder sb = new StringBuilder();
+
+      // INPUT str
+      String str = br.readLine();
+      
+      // INPUT hSet
+      HashSet<String> hSet = new HashSet<String>();
+      for(int i = 1; i <= str.length(); i++) {
+        for(int j = 0; j <= str.length() - i; j++) {
+          hSet.add(str.substring(j, i+j));
+        }
+      }
+
+      // PRINT
+      System.out.println(hSet.size());
+    }
+}
