@@ -1,0 +1,78 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringBuilder sb = new StringBuilder();
+
+    // INPUT n
+		StringTokenizer st = new StringTokenizer(br.readLine());
+    int n = Integer.parseInt(st.nextToken());
+
+    int[] tests = new int[n];
+    int max = 0;
+    for(int i = 0; i < n; i++) {
+      tests[i] = Integer.parseInt(br.readLine());
+      if(tests[i] > max) {
+        max = tests[i];
+      }
+    }
+
+    // MAKE Prime Number Dictionary
+    List<Integer> dic = new ArrayList<>();
+    for(int q = 2; q < max; q++) {
+      if(isPrime(q)) {
+        dic.add(q);
+      }
+    }
+    int[] dictionary = new int[dic.size()];
+    for(int w = 0; w < dic.size(); w++) {
+      dictionary[w] = dic.get(w);
+    }
+
+    // COUNT
+    for(int t : tests) {
+      int cnt = 0;
+      if(t == 4) { cnt++; }
+      int temp = 3;
+
+      while(true) {
+        if(binarySearch(temp, 0, dic.size() - 1, dictionary) && binarySearch(t- temp, 0, dic.size() - 1, dictionary)) {
+          cnt++;
+        }
+        temp += 2;
+        if(temp > t / 2) { break; }
+      }
+      sb.append(cnt + "\n");
+    }
+    System.out.print(sb);
+  }
+
+  static boolean isPrime(int x) {
+    double range = Math.sqrt(x);
+    for(int i = 2; i <= range; i++) {
+      if(x % i == 0) { return false; }
+    }
+    return true;
+  }
+
+  static boolean binarySearch(int key, int start, int end, int[] dictionary) {
+    int mid;
+
+    if(start <= end) {
+      mid = (start + end) / 2;
+
+      if(key == dictionary[mid]) {
+        return true;
+      }
+      else if(key < dictionary[mid]) {
+        return binarySearch(key, start, mid - 1, dictionary);
+      }
+      else if(key > dictionary[mid]) {
+        return binarySearch(key, mid + 1, end, dictionary);
+      }
+    }
+    return false;
+  }
+}
