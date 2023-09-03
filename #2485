@@ -1,0 +1,37 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+    // INPUT n
+		StringTokenizer st = new StringTokenizer(br.readLine());
+    int n = Integer.parseInt(st.nextToken()); // how many trees are there?
+
+    // INPUT trees
+    int[] trees = new int[n];
+    for(int i = 0; i < n; i++) {
+      trees[i] = Integer.parseInt(br.readLine());
+    }
+
+    int gcdMIN = gcd(trees[2] - trees[1], trees[1] - trees[0]);
+    for(int j = 0; j < n-2; j++) {
+      int temp = gcd(gcdMIN, trees[j+2] - trees[j+1]);
+      if(gcdMIN > temp) {
+        gcdMIN = temp;
+      }
+    }
+
+    System.out.println(((trees[n-1] - trees[0]) / gcdMIN + 1) - n);
+  }
+
+	public static int gcd(int a, int b) {
+    while(b != 0) {
+      int r = a % b;
+      a = b;
+      b = r;
+    }
+    return a;
+  }
+}
