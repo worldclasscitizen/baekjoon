@@ -1,0 +1,78 @@
+import java.util.*;
+import java.io.*;
+import java.math.BigInteger;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    StringBuilder sb = new StringBuilder();
+
+    // INPUT n
+    int n = Integer.parseInt(st.nextToken());
+
+    // DECLARE stack
+    Stack<Integer> stack = new Stack<>();
+
+    // ORDER
+    for(int i = 0; i < n; i++) {
+      st = new StringTokenizer(br.readLine());
+      int order = Integer.parseInt(st.nextToken());
+
+      // IF order is "1",
+      if(order == 1) {
+        one(st, stack);
+      }
+      else if(order == 2) {
+        sb.append(two(stack) + "\n");
+      }
+      else if(order == 3) {
+        sb.append(three(stack) + "\n");
+      }
+      else if(order == 4) {
+        sb.append(four(stack) + "\n");
+      }
+      else if(order == 5) {
+        sb.append(five(stack) + "\n");
+      }
+    }
+    System.out.print(sb);
+  }
+
+  // PUSh nextToken into Stack
+  static void one(StringTokenizer st, Stack<Integer> stack) {
+    stack.push(Integer.parseInt(st.nextToken()));
+    return;
+  }
+
+  // if there is any factor, POP it or print -1
+  static int two(Stack<Integer> stack) {
+    if(!stack.empty()) {
+      return stack.pop();
+    }
+    else { return -1; }
+  }
+
+  // PRINT how many factors are in the Stack
+  static int three(Stack<Integer> stack) {
+    return stack.size();
+  }
+  
+  // Check Stack and if empty, PRINT 1 or PRINT 0
+  static int four(Stack<Integer> stack) {
+    if(stack.empty()) {
+      return 1;
+    }
+    else { return 0; }
+  }
+
+  // if there is any factor, just PRINT it
+  static int five(Stack<Integer> stack) {
+    if(!stack.empty()) {
+      int temp = stack.pop();
+      stack.push(temp);
+      return temp;
+    }
+    else { return -1; }
+  }
+}
