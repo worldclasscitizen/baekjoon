@@ -1,0 +1,81 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    int n = Integer.parseInt(st.nextToken());
+    int[] temp = new int[n];
+    Stack<Integer> people = new Stack<>();
+    Stack<Integer> side = new Stack<>();
+
+    st = new StringTokenizer(br.readLine());
+    for(int i = 0; i < n; i++) {
+      temp[i] = Integer.parseInt(st.nextToken());
+    }
+    for(int j = n-1; j >= 0; j--) {
+      people.push(temp[j]);
+    }
+
+    System.out.println(find(n, people, side));
+  }
+
+  public static String find(int num, Stack<Integer> people, Stack<Integer> side) {
+    for(int i = 1; i <= num; i++) {
+      // people이 비어 있지 않다면
+      if(!people.isEmpty()) {
+        // people 체크
+        if(people.peek().equals(i)) {
+          people.pop();
+          continue;
+        }
+        // 만약 people에 찾고자 하는 요소가 없다면 side 체크
+        else if(!side.isEmpty()) {
+          if(side.peek().equals(i)) {
+            side.pop();
+            continue; 
+          }
+          while(!people.isEmpty() && !(people.peek().equals(i))) {
+            side.push(people.pop());
+          }
+          if(!people.isEmpty()) {
+            people.pop();
+            continue;
+          }
+          else { return "Sad"; }
+        }
+        // 만약 여기까지도 없다면 people의 요소를 side에 추가
+        else {
+          // 추가했는데도 people이 비어 있지 않다면 계속 찾기
+          while(!(people.peek().equals(i))) {
+            side.push(people.pop());
+          }
+          if(!people.isEmpty()) {
+            people.pop();
+            continue;
+          }
+          else { return "Sad"; }
+        }
+      }
+      // people이 비어 있고 side가 비어 있지 않다면
+      else if(!side.isEmpty()) {
+        // side에 찾고자 하는 요소가 있는지 체크
+        if(side.peek().equals(i)) {
+          side.pop();
+          continue; 
+        }
+        // 만약 여기까지도 없다면 Sad
+        else {
+          return "Sad";
+        }
+      }
+      // 만약 둘 다 비어 있다면(말이 안 됨)?
+      else {
+        return "Sad";
+      }
+    }
+    return "Nice";
+  }
+}
