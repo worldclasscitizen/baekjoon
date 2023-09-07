@@ -1,0 +1,94 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static StringBuilder sb = new StringBuilder();
+	public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    int n = Integer.parseInt(st.nextToken());
+    int last = 0;
+    Queue<Integer> queue = new LinkedList<>();
+
+    for(int i = 0; i < n; i++) {
+      st = new StringTokenizer(br.readLine());
+      String order = st.nextToken();
+      if(order.equals("push")) {
+        last = Integer.parseInt(st.nextToken());
+        push(queue, last);
+      }
+      else if(order.equals("pop")) {
+        pop(queue);
+      }
+      else if(order.equals("size")) {
+        sb.append(size(queue) + "\n");
+      }
+      else if(order.equals("empty")) {
+        sb.append(empty(queue) + "\n");
+      }
+      else if(order.equals("front")) {
+        front(queue);
+      }
+      else if(order.equals("back")) {
+        back(queue, last);
+      }
+    }
+
+    System.out.print(sb);
+
+  }
+
+  // PUSH
+  static void push(Queue<Integer> queue, int x) {
+    queue.add(x);
+    return;
+  }
+
+  // POP
+  static void pop(Queue<Integer> queue) {
+    if(!queue.isEmpty()) {
+      int x = queue.poll();
+      sb.append(x + "\n");
+    }
+    else {
+      sb.append(-1 + "\n");
+    }
+    return;
+  }
+
+  // SIZE
+  static int size(Queue<Integer> queue) {
+    return queue.size();
+  }
+
+  // EMPTY
+  static int empty(Queue<Integer> queue) {
+    if(!queue.isEmpty()) { return 0; }
+    else { return 1; }
+  }
+
+  // FRONT
+  static void front(Queue<Integer> queue) {
+    if(!queue.isEmpty()) {
+      int x = queue.peek();
+      sb.append(x + "\n");
+    }
+    else {
+      sb.append(-1 + "\n");
+    }
+    return;
+  }
+
+  // BACK
+  static void back(Queue<Integer> queue, int last) {
+    if(!queue.isEmpty()) {
+      sb.append(last + "\n");
+    }
+    else {
+      sb.append(-1 + "\n");
+    }
+    return;
+  }
+
+}
