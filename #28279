@@ -1,0 +1,104 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    static StringBuilder sb = new StringBuilder();
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        // int n = Integer.parseInt(st.nextToken());
+
+        int n = Integer.parseInt(st.nextToken());
+        Deque<Integer> deque = new ArrayDeque<>();
+
+        for(int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            String order = st.nextToken();
+            if(order.equals("1")) {
+                first(deque, Integer.parseInt(st.nextToken()));
+            }
+            else if (order.equals("2")) {
+                second(deque, Integer.parseInt(st.nextToken()));
+            }
+            else if (order.equals("3")) {
+                third(deque);
+            }
+            else if (order.equals("4")) {
+                fourth(deque);
+            }
+            else if (order.equals("5")) {
+                fifth(deque);
+            }
+            else if (order.equals("6")) {
+                sixth(deque);
+            }
+            else if (order.equals("7")) {
+                seventh(deque);
+            }
+            else if (order.equals("8")) {
+                eighth(deque);
+            }
+        }
+        System.out.print(sb);
+    }
+
+    // FIRST
+    static void first(Deque<Integer> deque, int x) {
+        deque.addFirst(x);
+        return;
+    }
+
+    // SECOND
+    static void second(Deque<Integer> deque, int x) {
+        deque.addLast(x);
+        return;
+    }
+
+    // THIRD
+    static void third(Deque<Integer> deque) {
+        if(!deque.isEmpty()) {
+            sb.append(deque.pollFirst() + "\n");
+        }
+        else {
+            sb.append(-1 + "\n");
+        }
+    }
+
+    // FOURTH
+    static void fourth(Deque<Integer> deque) {
+        if (!deque.isEmpty()) {
+            sb.append(deque.pollLast() + "\n");
+        } else {
+            sb.append(-1 + "\n");
+        }
+    }
+
+    // FIFTH
+    static void fifth(Deque<Integer> deque) {
+        sb.append(deque.size() + "\n");
+    }
+
+    // SIXTH
+    static void sixth(Deque<Integer> deque) {
+        if(deque.isEmpty()) { sb.append(1 + "\n"); }
+        else { sb.append(0 + "\n"); }
+    }
+
+    // SEVENTH
+    static void seventh(Deque<Integer> deque) {
+        if (!deque.isEmpty()) {
+            sb.append(deque.peekFirst() + "\n");
+        } else {
+            sb.append(-1 + "\n");
+        }
+    }
+
+    // EIGHTH
+    static void eighth(Deque<Integer> deque) {
+        if (!deque.isEmpty()) {
+            sb.append(deque.peekLast() + "\n");
+        } else {
+            sb.append(-1 + "\n");
+        }
+    }
+ }
