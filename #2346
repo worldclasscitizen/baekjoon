@@ -1,0 +1,70 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    static StringBuilder sb = new StringBuilder();
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int n = Integer.parseInt(st.nextToken());
+        Deque<Integer> deque = new ArrayDeque<>();
+        Deque<Integer> order = new ArrayDeque<>();
+        Deque<Integer> answer = new ArrayDeque<>();
+
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < n; i++) {
+            deque.add(Integer.parseInt(st.nextToken()));
+            order.add(i + 1);
+        }
+
+        boolean pom = true;
+
+        for(int j = 0; j < n; j++) {
+          if(pom) {
+            int pass = deque.pollFirst();
+            answer.addLast(order.pollFirst());
+            if(deque.isEmpty()) { break; }
+            if(pass > 0) {
+              for(int q = 0; q < pass - 1; q++) {
+                deque.addLast(deque.pollFirst());
+                order.addLast(order.pollFirst());
+              }
+              pom = true;
+            }
+            else {
+              for(int q = 0; q > pass + 1; q--) {
+                deque.addFirst(deque.pollLast());
+                order.addFirst(order.pollLast());
+              }
+              pom = false;
+            }
+          }
+          else {
+            int pass = deque.pollLast();
+            answer.addLast(order.pollLast());
+            if(deque.isEmpty()) { break; }
+            if(pass > 0) {
+              for(int q = 0; q < pass - 1; q++) {
+                deque.addLast(deque.pollFirst());
+                order.addLast(order.pollFirst());
+              }
+              pom = true;
+            }
+            else {
+              for(int q = 0; q > pass + 1; q--) {
+                deque.addFirst(deque.pollLast());
+                order.addFirst(order.pollLast());
+              }
+              pom = false;
+            }
+          }
+        }
+
+        for(int num : answer) {
+          System.out.print(num + " ");
+        }
+        
+        System.out.println();
+    }
+ }
