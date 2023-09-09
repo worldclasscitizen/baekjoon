@@ -1,0 +1,57 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static StringBuilder sb = new StringBuilder();
+  public static void main(String args[]) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    int n = Integer.parseInt(st.nextToken());
+    int m = Integer.parseInt(st.nextToken());
+    HashMap<String, Integer> hMap = new HashMap<>();
+    
+    for(int i = 0; i < n; i++) {
+      String temp = br.readLine();
+      if(temp.length() < m) { continue; }
+      if(hMap.containsKey(temp)) {
+        int tempCnt = hMap.get(temp);
+        tempCnt++;
+        hMap.put(temp, tempCnt);
+      }
+      else {
+        hMap.put(temp, 1);
+      }
+    }
+
+    List<String> answer = new ArrayList<>(hMap.keySet());
+    Collections.sort(answer, new Comparator<String>() {
+      @Override
+      public int compare(String s1, String s2) {
+          if(hMap.get(s1) < hMap.get(s2)) {
+            return 1;
+          }
+          else if(hMap.get(s1) == hMap.get(s2)) {
+            if(s2.length() - s1.length() > 0) {
+              return 1;
+            }
+            else if(s2.length() == s1.length()) {
+              return s1.compareTo(s2);
+            }
+            else {
+              return s2.length() - s1.length();
+            }
+          }
+          else {
+            return -1;
+          }
+      }
+    });
+
+    for(String ans : answer) {
+      sb.append(ans + "\n");
+    }
+
+    System.out.println(sb);
+  }
+}
