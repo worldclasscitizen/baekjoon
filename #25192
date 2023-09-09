@@ -1,0 +1,35 @@
+import java.util.*;
+import java.io.*;
+import java.math.BigInteger;
+
+public class Main {
+  static StringBuilder sb = new StringBuilder();
+  static int[][] dp;
+  public static void main(String args[]) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    int n = Integer.parseInt(st.nextToken());
+    int gomgom = 0;
+    int chat = 0;
+    HashSet<String> names = new HashSet<>();
+
+
+    while(chat < n) {
+      String line = br.readLine();
+      if(line.equals("ENTER")) {
+        gomgom += names.size();
+        names.clear();
+        chat++;
+      }
+      else {
+        names.add(line);
+        chat++;
+      }
+    }
+    gomgom += names.size();
+
+    System.out.println(gomgom);
+    
+  }
+}
