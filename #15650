@@ -1,0 +1,53 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    StringBuilder sb = new StringBuilder();
+
+    int n = Integer.parseInt(st.nextToken());
+    int m = Integer.parseInt(st.nextToken());
+
+    int[] arr = new int[n];
+    int[] output = new int[n];
+    boolean[] visited = new boolean[n];
+
+    for(int i = 1; i <= n; i++) {
+      arr[i-1] = i;
+    }
+
+    permutation(arr, output, visited, 0, n, m);
+	}
+  
+  static void permutation(int[] arr, int[] output, boolean[] visited, int depth, int n, int m) {
+    if(depth == m) {
+      if(check(output, m)) { print(output, m); }
+      return;
+    }
+    
+    for(int i = 0; i < n; i++) {
+      if(visited[i] != true) {
+        visited[i] = true;
+        output[depth] = arr[i];
+        permutation(arr, output, visited, depth + 1, n, m);
+        visited[i] = false;
+      }
+    }
+  }
+
+  static void print(int[] arr, int r) {
+    for(int i = 0; i < r; i++) {
+      System.out.print(arr[i] + " ");
+    }
+    System.out.println();
+  }
+
+  static boolean check(int[] arr, int r) {
+    for(int i = 1; i <= r-1; i++) {
+      if(arr[i] - arr[i-1] <= 0) { return false; }
+    }
+    return true;
+  }
+}
