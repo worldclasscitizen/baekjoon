@@ -1,0 +1,22 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  public static StringBuilder sb = new StringBuilder();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    int x = Integer.parseInt(st.nextToken());
+
+    String binary = Integer.toBinaryString(x);
+
+    int cnt = 0;
+    for(int i = 0; i < binary.length(); i++) {
+      if(binary.charAt(i) == '1') {
+        cnt++;
+      }
+    }
+    System.out.println(cnt);
+	}
+}
