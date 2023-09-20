@@ -1,0 +1,98 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  public static StringBuilder sb = new StringBuilder();
+  
+  static int[][] dp;
+  static int[] arr;
+  static int t;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    // 집의 수 t
+    t = Integer.parseInt(st.nextToken());
+    arr = new int[t*3];
+    dp = new int[t][3];
+
+    // 페인트를 칠하는 비용을 저장
+    for(int i = 0; i < t ; i++) {
+      st = new StringTokenizer(br.readLine());
+      arr[i*3] = Integer.parseInt(st.nextToken());
+      arr[i*3 + 1] = Integer.parseInt(st.nextToken());
+      arr[i*3 + 2] = Integer.parseInt(st.nextToken());
+    }
+
+    int min = Integer.MAX_VALUE;
+    
+    // 모든 함수를 한 번씩 호출해서 가장 작은 값 찾기
+    min = Math.min(min, r(t));
+    min = Math.min(min, g(t));
+    min = Math.min(min, b(t));
+
+    System.out.println(min);
+    
+	}
+
+  // 마지막으로 칠하는 색깔이 r / g / b 일 때로 나누어 계산
+  static int r(int x) {
+    if(x == 1) {
+      return arr[0];
+    }
+    if(dp[x-1][1] != 0 && dp[x-1][2] != 0) {
+      return Math.min(dp[x-1][1], dp[x-1][2]) + arr[x*3 - 3];
+    }
+    else if(dp[x-1][1] != 0) {
+      dp[x-1][2] = b(x-1);
+      return Math.min(dp[x-1][1], dp[x-1][2]) + arr[x*3 - 3];
+    }
+    else if(dp[x-1][2] != 0) {
+      dp[x-1][1] = g(x-1);
+      return Math.min(dp[x-1][1], dp[x-1][2]) + arr[x*3 - 3];
+    }
+    dp[x-1][1] = g(x-1);
+    dp[x-1][2] = b(x-1);
+    return Math.min(dp[x-1][1], dp[x-1][2]) + arr[x*3 - 3];
+  }
+
+  static int g(int x) {
+    if(x == 1) {
+      return arr[1];
+    }
+    if(dp[x-1][0] != 0 && dp[x-1][2] != 0) {
+      return Math.min(dp[x-1][0], dp[x-1][2]) + arr[x*3 - 2];
+    }
+    else if(dp[x-1][0] != 0) {
+      dp[x-1][2] = b(x-1);
+      return Math.min(dp[x-1][0], dp[x-1][2]) + arr[x*3 - 2];
+    }
+    else if(dp[x-1][2] != 0) {
+      dp[x-1][0] = r(x-1);
+      return Math.min(dp[x-1][0], dp[x-1][2]) + arr[x*3 - 2];
+    }
+    dp[x-1][0] = r(x-1);
+    dp[x-1][2] = b(x-1);
+    return Math.min(dp[x-1][0], dp[x-1][2]) + arr[x*3 - 2];
+  }
+
+  static int b(int x) {
+    if(x == 1) {
+      return arr[2];
+    }
+    if(dp[x-1][0] != 0 && dp[x-1][1] != 0) {
+      return Math.min(dp[x-1][0], dp[x-1][1]) + arr[x*3 - 1];
+    }
+    else if(dp[x-1][0] != 0) {
+      dp[x-1][1] = g(x-1);
+      return Math.min(dp[x-1][0], dp[x-1][1]) + arr[x*3 - 1];
+    }
+    else if(dp[x-1][1] != 0) {
+      dp[x-1][0] = r(x-1);
+      return Math.min(dp[x-1][0], dp[x-1][1]) + arr[x*3 - 1];
+    }
+    dp[x-1][0] = r(x-1);
+    dp[x-1][1] = g(x-1);
+    return Math.min(dp[x-1][0], dp[x-1][1]) + arr[x*3 - 1];
+  }
+}
