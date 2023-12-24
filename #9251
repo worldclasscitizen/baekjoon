@@ -1,0 +1,46 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static char[] char1;
+  static char[] char2;
+  static Integer[][] answer;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String str1 = br.readLine();
+    String str2 = br.readLine();
+    int x = str1.length();
+    int y = str2.length();
+    char1 = new char[x];
+    char2 = new char[y];
+    answer = new Integer[x][y];
+
+    for(int i = 0; i < x; i++) {
+      char1[i] = str1.charAt(i);
+    }
+    for(int i = 0; i < y; i++) {
+      char2[i] = str2.charAt(i);
+    }
+
+    System.out.println(lcs(x-1, y-1));
+	}
+
+  static int lcs(int x, int y) {
+    if(x == -1 || y == -1) {
+      return 0;
+    }
+    
+    if(answer[x][y] == null) {
+      answer[x][y] = 0;
+
+      if(char1[x] == char2[y]) {
+        answer[x][y] = lcs(x-1, y-1) + 1;
+      }
+      else {
+        answer[x][y] = Math.max(lcs(x-1, y), lcs(x, y-1));
+      }
+    }
+    
+    return answer[x][y];
+  }
+}
