@@ -6,14 +6,10 @@ public class Main {
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringTokenizer st = new StringTokenizer(br.readLine());
-    // 케이스의 개수 t
     int t = Integer.parseInt(st.nextToken());
-    // 가방의 사이즈 size
     int size = Integer.parseInt(st.nextToken());
-    // 2차원 배열 dp는 [t][size+1] 의 크기로 선언
     dp = new int[t+1][size+1];
 
-    // arr 에 입력되는 무게와 값어치를 저장한다.
     for(int i = 1; i <= t; i++) {
       st = new StringTokenizer(br.readLine());
       int w = Integer.parseInt(st.nextToken());
