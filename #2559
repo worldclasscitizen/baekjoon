@@ -1,0 +1,57 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        // INPUT n, k (n : total number of measured days, k : the length of days for calculate)
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
+
+        if(n == k) {
+            int sum = 0;
+            st = new StringTokenizer(br.readLine());
+            for(int i = 0; i < n; i++) {
+                sum += Integer.parseInt(st.nextToken());
+            }
+            System.out.println(sum);
+            System.exit(0);
+        }
+
+        // DECLARE sum, max
+        int sum = 0;
+        int max = 0;
+
+        // DECLARE Queue
+        Queue<Integer> queue = new LinkedList<>();
+
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < n; i++) {
+            if(i == k) { max = sum; }
+            if(i >= k) { // 이전에 k 개까지의 합을 구했을 때
+
+                sum -= queue.poll(); // 맨앞의 값을 sum 에서 감소시키고, Queue 에서 제거한다.
+                int temp = Integer.parseInt(st.nextToken()); // 그리고 새로 Queue 에 추가할 값을 입력받는다.
+                queue.add(temp); // Queue 에 넣는다.
+                sum += temp; // sum 에도 추가한다.
+
+                // 과정을 마친 sum 의 값을 이전의 sum 과 비교한다.
+                // 그리고 더 큰 값을 max 에 저장한다.
+                max = Math.max(max, sum);
+
+            }
+            else { // 아직 주어진 수 k 개까지의 합을 구하지 못했을 때
+
+                int temp = Integer.parseInt(st.nextToken()); // 새로 Queue 에 추가할 값을 입력받는다.
+                queue.add(temp); // Queue 에 넣는다.
+                sum += temp; // sum 에도 추가한다.
+
+            }
+        }
+        
+        // PRINT max
+        System.out.println(max);
+    }
+}
