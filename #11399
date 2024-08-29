@@ -1,0 +1,39 @@
+import java.util.*;
+import java.io.*;
+
+class ATM implements Comparable<ATM> {
+  int time;
+
+  public ATM(int time) {
+    this.time = time;
+  }
+
+  @Override
+  public int compareTo(ATM other) {
+    return this.time - other.time;
+  }
+}
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    int n = Integer.parseInt(st.nextToken());
+
+    PriorityQueue<ATM> pq = new PriorityQueue<>();
+
+    st = new StringTokenizer(br.readLine());
+    for(int i = 0; i < n; i++) {
+      int time = Integer.parseInt(st.nextToken());
+      ATM atm = new ATM(time);
+      pq.add(atm);
+    }
+
+    int answer = 0;
+    for(int i = n; i >= 1; i--) {
+      answer += pq.poll().time * i; 
+    }
+
+    System.out.println(answer);
+  }
+}
