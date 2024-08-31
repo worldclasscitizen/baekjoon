@@ -1,0 +1,62 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+    String[] expression = br.readLine().split("-", 2);
+
+    int[] plusList = new int[0];
+    int[] minusList = new int[0];
+
+    int plus = 0;
+    int minus = 0;
+
+    if(!expression[0].isEmpty()) {
+      plusList = extractNumber(expression[0]);
+      for (int num : plusList) {
+        plus += num;
+      }
+    }
+
+    if(expression.length > 1 && !expression[1].isEmpty()) {
+      minusList = extractNumber(expression[1]);
+      for (int num : minusList) {
+        minus += num;
+      }
+    }
+
+    int answer = plus - minus;
+    System.out.println(answer);
+
+  }
+
+  public static int[] extractNumber(String str) {
+    List<Integer> numbers = new ArrayList<>();
+    StringBuilder numberBuilder = new StringBuilder();
+
+    for(char ch : str.toCharArray()) {
+      if(Character.isDigit(ch)) {
+        numberBuilder.append(ch);
+      }
+      else if(ch == '+' || ch == '-') {
+        if(numberBuilder.length() > 0) {
+          numbers.add(Integer.parseInt(numberBuilder.toString()));
+          numberBuilder.setLength(0);
+        }
+      }
+    }
+
+    if(numberBuilder.length() > 0) {
+      numbers.add(Integer.parseInt(numberBuilder.toString()));
+    }
+
+    int[] answer = new int[numbers.size()];
+    for(int i = 0; i < numbers.size(); i++) {
+      answer[i] = numbers.get(i);
+    }
+
+    return answer;
+  }
+}
