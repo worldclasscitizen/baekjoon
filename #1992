@@ -1,0 +1,61 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static int[][] paper;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    
+    int n = Integer.parseInt(st.nextToken());
+    paper = new int[n][n];
+
+    for(int i = 0; i < n; i++) {
+      String str = br.readLine();
+      char[] chars = str.toCharArray();
+      for(int j = 0; j < n; j++) {
+        paper[i][j] = (int)chars[j] - 48;
+      }
+    }
+    
+    QuadTree(0, 0, n);
+  }
+
+  public static void QuadTree(int x, int y, int size) {
+    if(isPossible(x, y, size)) {
+      if(paper[x][y] == 0) {
+        System.out.print("0");
+        return;
+      }
+      else if(paper[x][y] == 1) { 
+        System.out.print("1");
+        return;
+      }
+    }
+
+    int newSize = size / 2;
+
+    System.out.print("(");
+    QuadTree(x, y, newSize);
+    QuadTree(x, y + newSize, newSize);
+    QuadTree(x + newSize, y, newSize);
+    QuadTree(x + newSize, y + newSize, newSize);
+    System.out.print(")");
+    
+    return;
+  }
+
+  public static boolean isPossible(int x, int y, int size) {
+    int value = paper[x][y];
+
+    for(int i = x; i < x + size; i++) {
+      for(int j = y; j < y + size; j++) {
+        if(value != paper[i][j]) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+}
