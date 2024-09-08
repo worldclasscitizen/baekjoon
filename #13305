@@ -1,0 +1,37 @@
+// 서브태스크 문제
+// 도시 간 거리와 각 도시의 기름값을 int 타입으로 계산하면 58점, Long 타입으로 계산하면 100점
+
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    int n = Integer.parseInt(st.nextToken());
+
+    Long[] distance = new Long[n - 1];
+    st = new StringTokenizer(br.readLine());
+    for(int i = 0; i < n-1; i++) {
+      distance[i] = Long.parseLong(st.nextToken());
+    }
+    
+    Long[] currentPrice = new Long[n];
+    st = new StringTokenizer(br.readLine());
+    for (int i = 0; i < n; i++) {
+      currentPrice[i] = Long.parseLong(st.nextToken());
+    }
+    
+    Long oilPrice = Long.MAX_VALUE;
+    Long answer = 0L;
+    for(int i = 0; i < n-1; i++) {
+      if(oilPrice > currentPrice[i]) {
+        oilPrice = currentPrice[i];
+      }
+      answer += oilPrice * distance[i];
+    }
+
+    System.out.println(answer);
+  }
+}
