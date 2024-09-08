@@ -1,0 +1,27 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String n = br.readLine();
+
+    while(!n.equals("0")) {
+      System.out.println(Palindrome(n));
+      n = br.readLine();
+    }
+  }
+
+  public static String Palindrome(String n) {
+    StringBuilder sb = new StringBuilder();
+    char[] str = n.toCharArray();
+    
+    for(int i = 0; i < str.length; i++) {
+      sb.append(str[str.length - 1 - i]);
+    }
+    
+    String reversed = sb.toString();
+    if(n.equals(reversed)) return "yes";
+    return "no";
+  }
+}
