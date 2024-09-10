@@ -1,0 +1,128 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static int n;                         // 어항 크기 = n * n
+  static int[][] tank;                  // 어항
+  static int[][] distance;              // 거리 계산 배열
+  static int sharkRow = -1, sharkCol = -1;        // 상어 위치
+  static int sharkSize = 2;                 // 상어 크기
+  static int eat = 0;                       // 얼마나 먹었는지 저장
+  static int answer = 0;
+  static int[] moveN = { -1, 0, 0, 1 };
+  static int[] moveM = { 0, -1, 1, 0 };
+
+  static int minX, minY, minDistance;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    
+    // 어항 정보 입력
+    n = Integer.parseInt(st.nextToken());
+    tank = new int[n][n];
+    for(int i = 0; i < n; i++) {
+      st = new StringTokenizer(br.readLine());
+      for(int j = 0; j < n ; j++) {
+        tank[i][j] = Integer.parseInt(st.nextToken());
+
+        // 아기 상어의 초기 위치 저장
+        if(tank[i][j] == 9) {
+          tank[i][j] = 0;
+          sharkRow = i;
+          sharkCol = j;
+        }
+      }
+    }
+
+    while(true) {
+      distance = new int[n][n];
+      minX = Integer.MAX_VALUE;
+      minY = Integer.MAX_VALUE;
+      minDistance = Integer.MAX_VALUE;
+      
+      bfs(sharkRow, sharkCol);
+
+      if(minX != Integer.MAX_VALUE && minY != Integer.MAX_VALUE) {
+        sharkRow = minX;
+        sharkCol = minY;
+
+        eat++;
+        tank[minX][minY] = 0;
+        answer += distance[minX][minY];
+        if(eat == sharkSize) {
+          eat = 0;
+          sharkSize++;
+        }
+      }
+      else {
+        break;
+      }
+    }
+    System.out.println(answer);
+  }
+
+  static void bfs(int x, int y) {
+    Queue<Position> q = new LinkedList<>();
+    q.offer(new Position(sharkRow, sharkCol));
+
+    while(!q.isEmpty()) {
+      Position p = q.poll();
+      int currentX = p.x;
+      int currentY = p.y;
+
+      for(int i = 0; i < 4; i++) {
+        int newX = currentX + moveN[i];
+        int newY = currentY + moveM[i];
+
+        if(isArea(newX, newY) && canGo(newX, newY) && distance[newX][newY] == 0) { 
+          distance[newX][newY] = distance[currentX][currentY] + 1;
+
+          // 이동한 위치에 먹을 물고기가 있다면
+          if(canEat(newX, newY)) {
+            // 해당 물고기가 가장 가까운 물고기라면
+            if(minDistance > distance[newX][newY]) {
+              // 해당 물고기를 최우선으로 설정
+              minX = newX;
+              minY = newY;
+              minDistance = distance[newX][newY];
+            }
+            // 거리가 똑같은 물고기가 더 있다면
+            else if(minDistance == distance[newX][newY]) {
+              // 더 위에 있는 물고기가 있다면
+              if(minX > newX || ((minX == newX) && minY > newY)) {
+                minX = newX;
+                minY = newY;
+              }
+            }
+          }
+          // 이동한 적 없고, 이동할 수 있는 위치라면 저장해두고 다음 위치를 또 찾아야 한다.
+          q.offer(new Position(newX, newY));
+        }
+      }
+    }
+  }
+
+  // 이동한 위치에 먹을 수 있는 물고기가 있는지
+  static boolean canEat(int x, int y) {
+    return tank[x][y] != 0 && tank[x][y] < sharkSize;
+  }
+
+  // 이동하고자 하는 위치에 자신보다 큰 물고기가 없는지
+  static boolean canGo(int x, int y) {
+    return tank[x][y] <= sharkSize;
+  }
+
+  // 이동하고자 하는 위치가 어항 범위에 속하는지
+  static boolean isArea(int x, int y) {
+    return x >= 0 && y >= 0 && x < n && y < n;
+  }
+}
+
+class Position {
+  int x, y;
+
+  Position(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+}
