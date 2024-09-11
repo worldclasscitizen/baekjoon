@@ -1,0 +1,39 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    static long mod = 1_000_000_007;
+    public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    int n = Integer.parseInt(st.nextToken());
+    int k = Integer.parseInt(st.nextToken());
+
+    long A = factorial(n);
+    long B = factorial(k) * factorial(n-k) % mod;
+
+    System.out.println((A % mod) * bico(B, mod-2) % mod);
+  }
+
+  static long bico(long a, long b) {
+    if(b == 1) {
+      return a % mod;
+    }
+    long half = bico(a, b/2);
+
+    if(b % 2 != 0) {
+      return (((half * half) % mod) * a) % mod;
+    }
+    return (half * half) % mod;
+    
+  }
+
+  static long factorial(long n) {
+    long a = 1;
+    for(int i = 1; i <= n; i++) {
+      a = (a * i) % mod;
+    }
+    return a;
+  }
+}
