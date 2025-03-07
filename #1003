@@ -1,0 +1,27 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    
+    int t = Integer.parseInt(st.nextToken());
+    
+    int[][] fibos = new int[41][2];
+    fibos[0][0] = 1;
+    fibos[1][1] = 1;
+
+    for (int i = 2; i < 41; i++) {
+      fibos[i][0] = fibos[i-2][0] + fibos[i-1][0];
+      fibos[i][1] = fibos[i-2][1] + fibos[i-1][1];
+    }
+
+    for (int j = 0; j < t; j++) {
+      st = new StringTokenizer(br.readLine());
+      int n = Integer.parseInt(st.nextToken());
+      System.out.println(fibos[n][0] + " " + fibos[n][1]);
+    }
+  }
+}
