@@ -1,0 +1,88 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static int cnt;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    int t = Integer.parseInt(st.nextToken());
+
+    for (int i = 0; i < t; i++) {
+      st = new StringTokenizer(br.readLine());
+      int n = Integer.parseInt(st.nextToken());
+      cnt = 1;
+      grid(n);
+      System.out.println(cnt);
+    }
+  }
+
+  static private void grid(int n) {
+    checkTwo(n);
+    checkThree(n);
+    checkTwoAndThree(n);
+  }
+
+  static private void checkTwo(int n) {
+    int one = n;
+    int two = 0;
+
+    while(one >= 2) {
+      one -= 2;
+      two += 1;
+      cnt += twoCombi(one + two, two);
+    }
+  }
+
+  static private void checkThree(int n) {
+    int one = n;
+    int three = 0;
+
+    while (one >= 3) {
+      one -= 3;
+      three += 1;
+      cnt += twoCombi(one + three, three);
+    }
+  }
+
+  static private void checkTwoAndThree(int n) {
+    int one = n;
+    int two = 0;
+    int three = 0;
+
+    while (one > 3) {
+      one -= 3;
+      three += 1;
+
+      processTriple(one, two, three);
+    }
+  }
+
+  static private void processTriple(int one, int two, int three) {
+    while (one >= 2) {
+      one -= 2;
+      two += 1;
+      if (one >= 1) {
+        cnt += threeCombi(one, two, three);
+      } else {
+        cnt += twoCombi(two + three, three);
+      }
+    }
+  }
+
+  static private int twoCombi(int n, int r) {
+    int denominator = 1, numerator = 1;
+    for (int i = 0; i < r; i++) {
+      numerator *= (n - i);
+      denominator *= (i + 1);
+    }
+
+    return numerator / denominator;
+  }
+
+  static private int threeCombi(int one, int two, int three) {
+    int caseCnt = twoCombi(two + three, three);
+    return caseCnt * twoCombi((one + two + three), one);
+  }
+}
