@@ -1,0 +1,49 @@
+import java.util.*;
+import java.io.*;
+import java.math.BigInteger;
+
+public class Main {
+  static int mod = 10007;
+  static int cnt;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    // 2 x n 의 직사각형
+    int n = Integer.parseInt(st.nextToken());
+    process(n);
+  }
+
+  static private void process(int n) {
+    int one = n;
+    int two = 0;
+
+    cnt++;
+
+    while (one > 1) {
+      one -= 2;
+      two += 1;
+      combi((one+two), two);
+    }
+
+    System.out.println(cnt % mod);
+  }
+
+  static private void combi(int n, int r) {
+    BigInteger NUMERATOR = BigInteger.ONE;
+    BigInteger DENOMINATOR = BigInteger.ONE;
+
+    for(int i = 0; i < r; i++) {
+      NUMERATOR = NUMERATOR.multiply(BigInteger.valueOf(n - i));
+      DENOMINATOR = DENOMINATOR.multiply(BigInteger.valueOf(i + 1));
+    }
+
+    BigInteger combination = NUMERATOR.divide(DENOMINATOR);
+    BigInteger twoPower = BigInteger.TWO.pow(r);
+    combination = combination.multiply(twoPower);
+
+    combination = combination.mod(BigInteger.valueOf(mod));
+
+    cnt += combination.intValue();
+  }
+}
