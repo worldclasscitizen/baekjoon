@@ -1,0 +1,57 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static StringBuilder sb = new StringBuilder();
+  static int[] s;
+  static boolean[] visited;
+  static int k, cnt;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    
+    while (true) {
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      k = Integer.parseInt(st.nextToken());
+      if (k == 0) {
+        break;
+      }
+
+      s = new int[k];
+      visited = new boolean[k];
+      for (int i = 0; i < k; i++) {
+        s[i] = Integer.parseInt(st.nextToken());
+      }
+
+      int[] result = new int[k];
+      select(s, 0, result);
+      sb.append('\n');
+    }
+    System.out.println(sb);
+  }
+
+  // s 에서 6개의 숫자만 고를 수 있음 (오름차순으로 출력)
+  static private void select(int[] s, int index, int[] result) {
+    if (index == 6) {
+      for (int i = 0; i < index - 1; i++) {
+        if (result[i] > result[i+1]) {
+          return;
+        }
+      }
+      for (int i = 0; i < index; i++) {
+        sb.append(result[i]);
+        sb.append(' ');
+      }
+      sb.append('\n');
+
+      return;
+    }
+
+    for (int i = 0; i < k; i++) {
+      if (visited[i]) continue;
+      visited[i] = true;
+      result[index] = s[i];
+      select(s, index + 1, result);
+      visited[i] = false;
+    }
+  }
+}
