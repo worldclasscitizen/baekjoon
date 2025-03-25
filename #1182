@@ -1,0 +1,47 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static boolean[] visited;
+  static int cnt = 0;
+  static int n, s;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    n = Integer.parseInt(st.nextToken());
+    visited = new boolean[n];
+    s = Integer.parseInt(st.nextToken());
+
+    int[] arr = new int[n];
+    st = new StringTokenizer(br.readLine());
+    for (int i = 0; i < n; i++) {
+      arr[i] = Integer.parseInt(st.nextToken());
+    }
+
+    System.out.println(backtracking(arr, 0, 0));
+  }
+
+  static private int backtracking(int[] arr, int index, int sum) {
+    if (index == n) {
+      return 0;
+    }
+
+    for (int i = index; i < n; i++) {
+      if (visited[i] == true) {
+        return 0;
+      }
+
+      visited[i] = true;
+      sum += arr[i];
+      if (sum == s) {
+        cnt++;
+      }
+
+      backtracking(arr, index + 1, sum);
+      sum -= arr[i];
+      visited[i] = false;
+    }
+    return cnt;
+  }
+}
