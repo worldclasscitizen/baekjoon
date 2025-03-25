@@ -1,0 +1,43 @@
+import java.util.*;
+import java.io.*;
+import java.math.BigInteger;
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    BigInteger STANDARD_NUMBER = BigInteger.valueOf(1000000000);
+
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    int n = Integer.parseInt(st.nextToken());
+
+    BigInteger A = BigInteger.ONE;
+
+    st = new StringTokenizer(br.readLine());
+    for (int i = 0; i < n; i++) {
+      int input = Integer.parseInt(st.nextToken());
+      A = A.multiply(BigInteger.valueOf(input));
+    }
+
+    st = new StringTokenizer(br.readLine());
+    int m = Integer.parseInt(st.nextToken());
+
+    BigInteger B = BigInteger.ONE;
+
+    st = new StringTokenizer(br.readLine());
+    for (int j = 0; j < m; j++) {
+      int input = Integer.parseInt(st.nextToken());
+      B = B.multiply(BigInteger.valueOf(input));
+    }
+
+    BigInteger GCD = A.gcd(B);
+
+    if (GCD.compareTo(STANDARD_NUMBER) >= 0) {
+      String str = GCD.toString();
+      System.out.println(str.substring(str.length() - 9));
+    }
+    else {
+      String str = GCD.toString();
+      System.out.println(str);
+    }
+  }
+}
