@@ -1,0 +1,55 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static boolean[] primeNumbers = new boolean[1000001];
+  static int a = -1, b = -1, n;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    
+
+    findPrimeNumbers();
+    primeNumbers[0] = true;
+    primeNumbers[1] = true;
+    primeNumbers[2] = true;
+
+    while (true) {
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      n = Integer.parseInt(st.nextToken());
+      if (n == 0) {
+        break;
+      }
+
+      goldbach();
+
+    }
+  }
+
+  // false 소수임
+  static private void findPrimeNumbers() {
+    for (int i = 2; i <= 1000; i++) {
+      for (int j = i * 2; j <= 1000000; j += i) {
+        primeNumbers[j] = true;
+      }
+    }
+  }
+
+  static private void goldbach() {
+    for (int i = 0; i <= (n / 2) + 1; i++) {
+      if (primeNumbers[i] == false) {
+        if (primeNumbers[n - i] == false) {
+          System.out.println(n + " = " + i + " + " + (n - i));
+          return;
+        }
+        else {
+          continue;
+        }
+      }
+      if (i == (n / 2) + 1) {
+        System.out.println("Goldbach's conjecture is wrong.");
+        return;
+      }
+    }
+  }
+  
+}
