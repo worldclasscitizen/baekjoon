@@ -1,0 +1,79 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    int n = Integer.parseInt(st.nextToken());
+    SerialNumber[] arr = new SerialNumber[n];
+
+    for (int i = 0; i < n; i++) {
+      arr[i] = new SerialNumber(br.readLine());
+    }
+
+    List<SerialNumber> serialList = Arrays.asList(arr);
+    Collections.sort(serialList);
+    
+    for (int i = 0; i < n; i++) {
+      System.out.println(serialList.get(i).serial);
+    }
+    
+  }
+}
+
+class SerialNumber implements Comparable<SerialNumber> {
+  String serial;
+  int length;
+  int sumOfASCII;
+
+  public SerialNumber(String serial) {
+    this.serial = serial;
+    this.length = this.serial.length();
+
+    for (int i = 0; i < length; i++) {
+      if ((int)serial.charAt(i) >= 48 && (int)serial.charAt(i) <= 57)  {
+        this.sumOfASCII += (int)serial.charAt(i) - 48;
+      }
+    }
+  }
+
+  @Override
+  public int compareTo(SerialNumber o) {
+    // this 가 더 길면 뒤에 배치
+    if (this.length > o.length) {
+      return 1;
+    }
+    // this 가 더 짧으면 앞에 배치
+    else if (this.length < o.length) {
+      return -1;
+    }
+
+    // 둘의 길이가 같다면
+    // this 가 더 값이 크다면 뒤에 배치
+    if (this.sumOfASCII > o.sumOfASCII) {
+      return 1;
+    }
+    // this 가 더 값이 작다면 앞에 배치
+    else if (this.sumOfASCII < o.sumOfASCII) {
+      return -1;
+    }
+
+    // 둘의 값도 같다면
+    for (int i = 0; i < this.length; i++) {
+      char thisChar = this.serial.charAt(i);
+      char oChar = o.serial.charAt(i);
+      // 사전순으로 this 가 더 늦은 알파벳이라면 뒤에 배치
+      if ((int)thisChar > (int)oChar) {
+        return 1;
+      } 
+      // 사전순으로 this 가 더 이른 알파벳이라면 앞에 배치
+      else if ((int)thisChar < (int)oChar) {
+        return -1;
+      }
+    }
+    // 위에 해당되지 않는 입력값은 들어오지 않지만 일단 0 반환
+    return 0;
+  }
+}
