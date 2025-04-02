@@ -1,0 +1,33 @@
+import java.io.*;
+import java.math.BigInteger;
+import java.util.*;
+
+public class Main {
+  static BigInteger RESULT;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    int n = Integer.parseInt(st.nextToken());
+
+    if (n == 1) {
+      System.out.println(1);
+      System.exit(0);
+    }
+
+    pibo(n);
+
+    System.out.println(RESULT);
+  }
+
+  static private void pibo(int n) {
+    BigInteger PREPRE = BigInteger.ZERO;
+    BigInteger PRE = BigInteger.ONE;
+    
+    for (int i = 2; i <= n; i++) {
+      RESULT = PREPRE.add(PRE);
+      PREPRE = PRE;
+      PRE = RESULT;
+    }
+  }
+}
