@@ -1,0 +1,72 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>();
+  static boolean[] visited, visited2;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    int n = Integer.parseInt(st.nextToken());
+    int m = Integer.parseInt(st.nextToken());
+    int v = Integer.parseInt(st.nextToken());
+
+    visited = new boolean[n + 1];
+    visited2 = new boolean[n + 1];
+
+    for (int i = 0; i < n + 1; i++) {
+      graph.add(new ArrayList<Integer>());
+    }
+
+    for (int j = 0; j < m; j++) {
+      st = new StringTokenizer(br.readLine());
+      int node1 = Integer.parseInt(st.nextToken());
+      int node2 = Integer.parseInt(st.nextToken());
+
+      graph.get(node1).add(node2);
+      if (!graph.get(node2).contains(node1)) {
+        graph.get(node2).add(node1);
+      }
+    }
+
+    for (int w = 0; w < n + 1; w++) {
+      Collections.sort(graph.get(w));
+    }
+
+    dfs(v);
+    System.out.println();
+    bfs(v);
+
+  }
+
+  static private void dfs(int point) {
+    visited[point] = true;
+    System.out.print(point + " ");
+
+    for (int node : graph.get(point)) {
+      if (!visited[node]) {
+        dfs(node);
+      }
+    }
+  }
+
+  static private void bfs(int point) {
+    Queue<Integer> q = new LinkedList<Integer>();
+    
+    q.offer(point);
+    visited2[point] = true;
+
+    while (!q.isEmpty()) {
+      int target = q.poll();
+      System.out.print(target + " ");
+
+      for (int node : graph.get(target)) {
+        if (!visited2[node]) {
+          q.offer(node);
+          visited2[node] = true;
+        }
+      }
+    }
+  }
+}
