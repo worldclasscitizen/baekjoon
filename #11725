@@ -1,0 +1,55 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static TreeSet<Integer>[] graph;
+  static boolean[] visited;
+  static int[] result;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    
+    // n 값에 맞게 배열 선언
+    int n = Integer.parseInt(st.nextToken());
+    graph = new TreeSet[n + 1];
+    visited = new boolean[n + 1];
+    result = new int[n + 1];
+    
+    // graph 초기화
+    for (int i = 0; i <= n; i++) {
+      graph[i] = new TreeSet<>();
+    }
+    
+    // 무방향 간선 추가
+    for (int i = 0; i < n-1; i++) {
+      st = new StringTokenizer(br.readLine());
+      int node1 = Integer.parseInt(st.nextToken());
+      int node2 = Integer.parseInt(st.nextToken());
+      
+      graph[node1].add(node2);
+      graph[node2].add(node1);
+    }
+
+    // bfs는 한 번만 호출
+    bfs(1, 0);
+
+    // 결과 출력
+    for (int i = 2; i <= n; i++) {
+      System.out.println(result[i]);
+    }
+  }
+
+  static private void bfs(int index, int previous) {
+    visited[index] = true;
+
+    // result 배열의 현재 인덱스에 이전 노드값(부모 노드)을 추가
+    result[index] = previous;
+
+    for (int node : graph[index]) {
+      if (!visited[node]) {
+        // 현재 노드값을 다음 bfs로 전송
+        bfs(node, index);
+      }
+    }
+  }
+}
