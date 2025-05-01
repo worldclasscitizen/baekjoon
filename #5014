@@ -1,0 +1,60 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static boolean[] visited;
+    static int[] depth;
+    static int f, s, g, u, d;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        // 전체 층수 = f
+        f = Integer.parseInt(st.nextToken());
+        visited = new boolean[f + 1];
+        depth = new int[f + 1];
+        // 현재 층수 = s
+        s = Integer.parseInt(st.nextToken());
+        // 가려고 하는 층수 = g
+        g = Integer.parseInt(st.nextToken());
+        // 위로 u층을 가는 버튼 = u
+        u = Integer.parseInt(st.nextToken());
+        // 아래로 d층을 가는 버튼 = d
+        d = Integer.parseInt(st.nextToken());
+
+        bfs(s);
+    }
+
+    static private void bfs(int start) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(start);
+        visited[start] = true;
+        depth[start] = 0;
+
+        while (!queue.isEmpty()) {
+            int floor = queue.poll();
+
+            if (floor == g) {
+                System.out.println(depth[floor]);
+                return;
+            }
+
+            int up = floor + u;
+            if (up <= f && !visited[up]) {
+                visited[up] = true;
+                depth[up] = depth[floor] + 1;
+                queue.add(up);
+            }
+
+            int down = floor - d;
+            if (down >= 1 && !visited[down]) {
+                visited[down] = true;
+                depth[down] = depth[floor] + 1;
+                queue.add(down);
+            }
+        }
+
+        System.out.println("use the stairs");
+    }
+}
