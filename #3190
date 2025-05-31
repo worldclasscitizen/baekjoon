@@ -1,0 +1,166 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int n, k;
+    static int[][] board;
+    static Queue<Position> snakeLocation;
+
+    static Snake snake;
+
+    static int appleCount = 0;
+    static int elapsedTime = 0;
+
+    static boolean gameEnded = false;
+
+    static class Snake {
+        // 상우하좌 0123
+        int snakeHeading = 1;
+
+        Position currentHead = new Position(1, 1);
+
+        public Snake() {
+            snakeLocation.add(new Position(1, 1));
+        }
+    }
+
+    static class Position {
+        int rPos;
+        int cPos;
+
+        public Position(int rPos, int cPos) {
+            this.rPos = rPos;
+            this.cPos = cPos;
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        snakeLocation = new LinkedList<>();
+        snake = new Snake();
+
+        n = Integer.parseInt(br.readLine());
+        board = new int[n + 1][n + 1];
+
+        k = Integer.parseInt(br.readLine());
+
+        for (int i = 0; i < k; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int apple_rPos = Integer.parseInt(st.nextToken());
+            int apple_cPos = Integer.parseInt(st.nextToken());
+
+            board[apple_rPos][apple_cPos] = 1;
+        }
+
+        int turnCounts = Integer.parseInt(br.readLine());
+        for (int i = 0; i < turnCounts; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int time = Integer.parseInt(st.nextToken());
+            String direction = st.nextToken();
+
+            process(snake, time - elapsedTime, direction);
+
+            if (direction.equals("L")) {
+                snake.snakeHeading--;
+                if (snake.snakeHeading == -1) {
+                    snake.snakeHeading = 3;
+                }
+            } else if (direction.equals("D")) {
+                snake.snakeHeading++;
+                if (snake.snakeHeading == 4) {
+                    snake.snakeHeading = 0;
+                }
+            }
+            if (gameEnded) break;
+        }
+
+        processRemainder(snake);
+
+        System.out.println(elapsedTime);
+    }
+
+    static void processRemainder(Snake snake) {
+        while (!gameEnded) {
+            moveHead(snake);
+
+            if (isAvailableLocation(snake)) {
+                snakeLocation.add(new Position(snake.currentHead.rPos, snake.currentHead.cPos));
+                if (checkApple(snake)) {
+                    board[snake.currentHead.rPos][snake.currentHead.cPos] = -1;
+                } else {
+                    board[snake.currentHead.rPos][snake.currentHead.cPos] = -1;
+                    Position tail = snakeLocation.poll();
+                    board[tail.rPos][tail.cPos] = 0;
+                }
+            } else {
+                gameEnded = true;
+                return;
+            }
+        }
+    }
+
+
+
+    static void process(Snake snake, int time, String direction) {
+        for (int i = 0; i < time; i++) {
+            moveHead(snake);
+
+            if (isAvailableLocation(snake)) {
+                snakeLocation.add(new Position(snake.currentHead.rPos, snake.currentHead.cPos));
+                if (checkApple(snake)) {
+                    board[snake.currentHead.rPos][snake.currentHead.cPos] = -1;
+                }
+                else {
+                    board[snake.currentHead.rPos][snake.currentHead.cPos] = -1;
+                    Position tail = snakeLocation.poll();
+                    board[tail.rPos][tail.cPos] = 0;
+                }
+            }
+            else {
+                gameEnded = true;
+                return;
+            }
+        }
+    }
+
+
+
+    static void moveHead(Snake snake) {
+        if (snake.snakeHeading == 0) { // 위를 바라보고 있다면
+            snake.currentHead.rPos--;
+        }
+        else if (snake.snakeHeading == 1) { // 오른쪽를 바라보고 있다면
+            snake.currentHead.cPos++;
+        }
+        else if (snake.snakeHeading == 2) { // 아래을 바라보고 있다면
+            snake.currentHead.rPos++;
+        }
+        else if (snake.snakeHeading == 3) { // 왼쪽을 바라보고 있다면
+            snake.currentHead.cPos--;
+        }
+
+        elapsedTime++;
+    }
+
+    static boolean isAvailableLocation(Snake snake) {
+        if (snake.currentHead.rPos > n || snake.currentHead.cPos > n || snake.currentHead.rPos < 1 || snake.currentHead.cPos < 1) {
+            return false;
+        }
+        else if (board[snake.currentHead.rPos][snake.currentHead.cPos] == -1) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    static boolean checkApple(Snake snake) {
+        if (board[snake.currentHead.rPos][snake.currentHead.cPos] == 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
