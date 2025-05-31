@@ -1,0 +1,122 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int frames, likes;
+    static int uploadedSequence = 0;
+
+    static List<Photo> photoList;
+
+    static class Photo {
+        int studentNumber;
+        int liked;
+        int uploaded;
+
+        public Photo(int studentNumber) {
+            this.studentNumber = studentNumber;
+            this.liked = 1;
+            this.uploaded = uploadedSequence++;
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        frames = Integer.parseInt(br.readLine());
+        likes = Integer.parseInt(br.readLine());
+
+        photoList = new ArrayList<>();
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        for (int i = 0; i < likes; i++) {
+            int inputStudentNumber = Integer.parseInt(st.nextToken());
+            framing(inputStudentNumber);
+        }
+        
+        print();
+    }
+
+    static void framing(int studentNumber) {
+        Photo existingPhoto = isAlreadyUploaded(studentNumber);
+        if (isFrameFull()) {
+            if (existingPhoto != null) {
+                existingPhoto.liked += 1;
+            }
+            else {
+                List<Photo> leastLikedStudent = findLeastLikedStudents();
+                findAndRemoveOldestStudent(leastLikedStudent);
+                photoList.add(new Photo(studentNumber));
+            }
+        }
+        else {
+            if (existingPhoto != null) {
+                existingPhoto.liked += 1;
+            }
+            else {
+                photoList.add(new Photo(studentNumber));
+            }
+        }
+    }
+
+    static boolean isFrameFull() {
+        if (photoList.size() == frames) {
+            return true;
+        }
+        else return false;
+    }
+
+    static Photo isAlreadyUploaded(int studentNumber) {
+        for (Photo photo : photoList) {
+            if (photo.studentNumber == studentNumber) {
+                return photo;
+            }
+        }
+        return null;
+    }
+
+    static List<Photo> findLeastLikedStudents() {
+        List<Photo> leastLikedStudents = new ArrayList<>();
+        int leastLikedCount = Integer.MAX_VALUE;
+
+        for (Photo photo : photoList) {
+            leastLikedCount = Math.min(leastLikedCount, photo.liked);
+        }
+
+        for (Photo photo : photoList) {
+            if (photo.liked == leastLikedCount) {
+                leastLikedStudents.add(photo);
+            }
+        }
+
+        return leastLikedStudents;
+    }
+    
+    static void findAndRemoveOldestStudent(List<Photo> leastLikedStudents) {
+        int uploadedDate = Integer.MAX_VALUE;
+        
+        for (Photo photo : leastLikedStudents) {
+            uploadedDate = Math.min(uploadedDate, photo.uploaded);
+        }
+
+        for (Photo photo : leastLikedStudents) {
+            if (photo.uploaded == uploadedDate) {
+                photoList.remove(photo);
+            }
+        }
+    }
+
+    static void print() {
+        int index = 0;
+        int[] studentList = new int[photoList.size()];
+
+        for (Photo photo : photoList) {
+            studentList[index++] = photo.studentNumber;
+        }
+
+        Arrays.sort(studentList);
+
+        for (int number : studentList) {
+            System.out.print(number + " ");
+        }
+    }
+}
