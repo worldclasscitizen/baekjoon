@@ -1,0 +1,172 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int r, c, m;
+    static int sum = 0;
+
+    static int[][] field;
+
+    static List<Shark> sharkList;
+
+    static class Shark {
+        int rPos;
+        int cPos;
+
+        int speed;
+        int direction; // 상하우좌 1234
+
+        int size;
+
+        public Shark(int rPos, int cPos, int speed, int direction, int size) {
+            this.rPos = rPos;
+            this.cPos = cPos;
+            
+            this.speed = speed;
+            this.direction = direction;
+            this.size = size;
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        r = Integer.parseInt(st.nextToken()); // 격자판 r
+        c = Integer.parseInt(st.nextToken()); // 격자판 c
+        m = Integer.parseInt(st.nextToken()); // 상어의 수
+
+        field = new int[r + 1][c + 1];
+
+        sharkList = new ArrayList<>();
+
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine());
+            int rPos = Integer.parseInt(st.nextToken());
+            int cPos = Integer.parseInt(st.nextToken());
+
+            int speed = Integer.parseInt(st.nextToken());
+            int direction = Integer.parseInt(st.nextToken());
+            int size = Integer.parseInt(st.nextToken());
+
+            sharkList.add(new Shark(rPos, cPos, speed, direction, size));
+        }
+
+        for (int human = 1; human <= c; human++) {
+            tryToCatch(human);
+            moveSharks();
+            eat();
+        }
+
+        System.out.println(sum);
+    }
+    static void tryToCatch(int humanLocation) {
+        Shark catched = null;
+        int catchedSize = 0;
+
+        int whereToCatch = Integer.MAX_VALUE;
+        for (Shark shark : sharkList) {
+            if (shark.cPos == humanLocation) {
+                if (whereToCatch > shark.rPos) {
+                    whereToCatch = shark.rPos;
+                    catched = shark;
+                    catchedSize = shark.size;
+                }
+            }
+        }
+
+        sum += catchedSize;
+        sharkList.remove(catched);
+    }
+
+    static void moveSharks() {
+        for (Shark shark : sharkList) {
+            if (shark.direction == 1) {
+                int cycle = 2 * r - 2;
+                int move = shark.speed % cycle;
+
+                int dir = -1;
+                
+                while (move-- > 0) {
+                    if (shark.rPos == 1) {
+                        dir = 1;
+                        shark.direction = 2;
+                    }
+                    else if (shark.rPos == r) {
+                        dir = -1;
+                        shark.direction = 1;
+                    }
+                    shark.rPos += dir;
+                }
+            }
+            else if (shark.direction == 2) {
+                int cycle = 2 * r - 2;
+                int move = shark.speed % cycle;
+
+                int dir = 1;
+                
+                while (move-- > 0) {
+                    if (shark.rPos == 1) {
+                        dir = 1;
+                        shark.direction = 2;
+                    }
+                    else if (shark.rPos == r) {
+                        dir = -1;
+                        shark.direction = 1;
+                    }
+                    shark.rPos += dir;
+                }
+            }
+            else if (shark.direction == 3) {
+                int cycle = 2 * c - 2;
+                int move = shark.speed % cycle;
+
+                int dir = 1;
+                
+                while (move-- > 0) {
+                    if (shark.cPos == 1) {
+                        dir = 1;
+                        shark.direction = 3;
+                    }
+                    else if (shark.cPos == c) {
+                        dir = -1;
+                        shark.direction = 4;
+                    }
+                    shark.cPos += dir;
+                }
+            }
+            else if (shark.direction == 4) {
+                int cycle = 2 * c - 2;
+                int move = shark.speed % cycle;
+
+                int dir = -1;
+                
+                while (move-- > 0) {
+                    if (shark.cPos == 1) {
+                        dir = 1;
+                        shark.direction = 3;
+                    }
+                    else if (shark.cPos == c) {
+                        dir = -1;
+                        shark.direction = 4;
+                    }
+                    shark.cPos += dir;
+                }
+            }
+        }
+    }
+
+    static void eat() {
+        HashMap<String, Shark> newSharks = new HashMap<>();
+
+        for (Shark shark : sharkList) {
+            String key = shark.rPos + ", " + shark.cPos;
+
+            if (!newSharks.containsKey(key) || newSharks.get(key).size < shark.size) {
+                newSharks.put(key, shark);
+            }
+        }
+
+        sharkList = new ArrayList<>(newSharks.values());
+    }
+}
