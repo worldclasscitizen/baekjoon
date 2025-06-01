@@ -1,0 +1,53 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int n, cnt;
+
+    static int[] array;
+    static boolean[] visited;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int t = Integer.parseInt(st.nextToken());
+
+        for (int testcase = 0; testcase < t; testcase++) {
+            cnt = 0;
+
+            n = Integer.parseInt(br.readLine());
+            array = new int[n + 1];
+            visited = new boolean[n + 1];
+
+            st = new StringTokenizer(br.readLine());
+            for (int i = 1; i <= n; i++) {
+                array[i] = Integer.parseInt(st.nextToken());
+            }
+            
+            int result = 0;
+            int index = 1;
+            while (cnt < n) {
+                int iterCount = dfs(index++, 0);
+                if (iterCount > 0) {
+                    result++;
+                }
+            }
+            System.out.println(result);
+        }
+        
+    }
+
+    static int dfs(int index, int iterCount) {
+        if (visited[index]) {
+            return iterCount;
+        }
+
+        visited[index] = true;
+        cnt++;
+        iterCount++;
+        dfs(array[index], iterCount);
+        
+        return iterCount;
+    }
+}
